@@ -1,9 +1,13 @@
 const main = require('./db');
 const express = require('express')
-
+const router = require('./routes/auth')
 main(); 
 const app = express()
 const port = 3000
+
+//routes
+app.use('/api/auth', router)
+app.use('/api/notes', require('./routes/notes'))
 
 app.get('/', (req, res) => {
   res.send('Hello Mongoji!')
