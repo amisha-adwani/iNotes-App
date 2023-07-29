@@ -5,6 +5,8 @@ main();
 const app = express()
 const port = 3000
 
+app.use(express.json())
+
 //routes
 app.use('/api/auth', router)
 app.use('/api/notes', require('./routes/notes'))
