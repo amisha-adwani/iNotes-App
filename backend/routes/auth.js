@@ -4,7 +4,7 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
-
+var fetchuser = require("../middleware/getuser");
 const JWT_SECRET = "puppy45";
 
 //Route 1: signup using: POST "/api/auth/signup"
@@ -42,12 +42,11 @@ router.post(
       const data = {
         user: {
           id: user.id,
-        }
+        },
       };
       //generate jwt token
       const authtoken = jwt.sign(data, JWT_SECRET);
       res.json(authtoken);
-
     } catch (error) {
       res.status(500).send("Error occured");
     }
@@ -57,11 +56,14 @@ router.post(
 //Route 2: login using: POST "/api/auth/login"
 router.post(
   "/login",
-  //validation if credentials exists 
+  //validation if credentials exists
   [
     body("name").isLength({ min: 3 }).withMessage("Not a valid name").exists(),
     body("email").isEmail().withMessage("Not a valid email").exists(),
-    body("password").isLength({ min: 5 }).withMessage("Not a valid password").exists(),
+    body("password")
+      .isLength({ min: 5 })
+      .withMessage("Not a valid password")
+      .exists(),
   ],
   //validation response if error occurs
   async (req, res) => {
@@ -70,38 +72,43 @@ router.post(
       res.status(400).json({ errors: errors.array() });
     }
     //extract email and password from body
-    const {email, password} = req.body
+    const { email, password } = req.body;
     try {
       //find if the user exists
-      let user = await User.findOne({email})
+      let user = await User.findOne({ email });
       //if user doesn't exists through error
       if (!user) {
-        res
-          .status(400)
-          .json({ error: "Incorrect login info" });
+        res.status(400).json({ error: "Incorrect login info" });
       }
 
       //if user exists compare the given password with the user data password
-      const comparePassword = await bcrypt.compare(password, user.password)
-      if(!comparePassword){
-        res
-        .status(400)
-        .json({ error: "Incorrect login info" });
+      const comparePassword = await bcrypt.compare(password, user.password);
+      if (!comparePassword) {
+        res.status(400).json({ error: "Incorrect login info" });
       }
       //if the password matches send the payload
       const data = {
         user: {
           id: user.id,
-        }
+        },
       };
       //  send token
       const authtoken = jwt.sign(data, JWT_SECRET);
       res.json(authtoken);
-      
     } catch (error) {
-      console.error(error.message)
-       res.status(500).send("Error occured");
+      console.error(error.message);
+      res.status(500).send("Error occured");
     }
   }
-)
+);
+
+//Route 3:
+router.get("/getuser", fetchuser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.send(user);
+  } catch (error) {
+    res.status(500).send("Error occured");
+  }
+});
 module.exports = router;
