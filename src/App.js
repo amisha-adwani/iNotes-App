@@ -9,6 +9,7 @@ function App() {
     <div>
       <Router>
       <NavBar/>
+      <div className="container">
       <NoteState>
         <Routes>
           <Route
@@ -17,6 +18,7 @@ function App() {
           path='/about' element={<About/>}/>
         </Routes>
       </NoteState>
+      </div>
       </Router>
     </div>
   );
