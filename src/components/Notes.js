@@ -6,7 +6,7 @@ import { Col } from "react-bootstrap";
 
 const Notes = () => {
   const context = useContext(NoteContext);
-  const { notes, setNotes } = context;
+  const { notes} = context;
   return (
     <div>
       {/* <Row xs={1} md={2} lg={3} className="g-4"> */}
@@ -14,7 +14,7 @@ const Notes = () => {
       <Row xs={1} md={2} lg={4} className="g-4">
         {notes.map((note) => {
           return (
-            <div>
+            <div key={note._id}>
               <Col className="m-4">
                 <NoteItem note={note} />
               </Col>
