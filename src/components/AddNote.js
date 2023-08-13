@@ -11,18 +11,23 @@ function BasicExample() {
 
     function handleClick(e) {
         e.preventDefault()
-        addNote( notes.title, notes.description)
-        console.log(notes.title, notes.description)
+        addNote( notes.title, notes.description, notes.tag)
+        // console.log(notes.title, notes.description)
         setNotes({title:'', description:'', tag:''})
       }
     function handleDescChange(event) {
         setNotes({...notes, description:event.target.value});
-        console.log(notes)
+        // console.log(notes)
       }
     function handleTitleChange(event) {
         setNotes({...notes, title:event.target.value});
-        console.log(notes)
+        // console.log(notes)
       }
+    function handleTagChange(event) {
+        setNotes({...notes, tag:event.target.value});
+        // console.log(notes)
+      }
+    
   return (
     <Form>
       <Form.Group className="mb-3">
@@ -32,6 +37,8 @@ function BasicExample() {
       <Form.Group className="mb-3">
         <Form.Label>Description</Form.Label>
         <Form.Control type="text" value={notes.description} onChange={handleDescChange}/>
+        <Form.Label>Tag</Form.Label>
+        <Form.Control type="text" value={notes.tag} onChange={handleTagChange}/>
       </Form.Group>
       <Button variant="primary" type="submit" onClick={handleClick}>
         Save
