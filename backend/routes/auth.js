@@ -67,6 +67,7 @@ router.post(
   ],
   //validation response if error occurs
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
@@ -78,13 +79,13 @@ router.post(
       let user = await User.findOne({ email });
       //if user doesn't exists through error
       if (!user) {
-        res.status(400).json({ error: "Incorrect login info" });
+        res.status(400).json({ success, error: "Incorrect login info" });
       }
 
       //if user exists compare the given password with the user data password
       const comparePassword = await bcrypt.compare(password, user.password);
       if (!comparePassword) {
-        res.status(400).json({ error: "Incorrect login info" });
+        res.status(400).json({ success, error: "Incorrect login info" });
       }
       //if the password matches send the payload
       const data = {
@@ -94,7 +95,8 @@ router.post(
       };
       //  send token
       const authtoken = jwt.sign(data, JWT_SECRET);
-      res.json(authtoken);
+      success = true;
+      res.json({success,authtoken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Error occured");
