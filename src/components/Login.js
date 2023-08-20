@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-const Login = () => {
+const Login = (props) => {
   let navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    username: "",
     email: "",
     password: "",
   });
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const host = "http://localhost:5000/api/auth/login";
@@ -19,7 +18,6 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: credentials.username,
         email: credentials.email,
         password: credentials.password,
       }),
@@ -29,9 +27,10 @@ const Login = () => {
     if (json.success) {
       // save the auth token and redirect
       localStorage.setItem("token", json.authtoken);
-      navigate("/home");
+      navigate("/home")
+      props.showAlert('success', 'Successfully loged in')
     } else {
-      alert("Invalid credentials");
+      props.showAlert('danger', 'Invalid credentials')
     }
   };
 
@@ -41,16 +40,6 @@ const Login = () => {
   return (
     <div className="m-3">
       <Form>
-        <Form.Group className="mb-3" controlId="formBasicText">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter name"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
-          />
-        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control

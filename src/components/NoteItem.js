@@ -12,7 +12,7 @@ export default function NoteItem(props) {
 //   console.log(props);
   return (
     <div>
-      <Card style={{ width: "18rem" }}>
+      <Card style={{ height: "125px", width:"316px"}}>
         <Card.Body>
           <Card.Title>{props.note.title}</Card.Title>
           <Card.Text>{props.note.description}</Card.Text>

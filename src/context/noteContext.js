@@ -49,6 +49,7 @@ const NoteState = (props) => {
       },
     });
     //client function
+    const json = await response.json();
     const newNote = notes.filter((note) => {
       return note._id !== id;
     });

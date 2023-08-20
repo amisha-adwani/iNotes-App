@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { NoteContext } from "../context/noteContext";
 
-function BasicExample() {
+function AddNote(props) {
     const context = useContext(NoteContext);
     const { addNote } = context;
 
@@ -13,6 +13,7 @@ function BasicExample() {
         e.preventDefault()
         addNote( notes.title, notes.description, notes.tag)
         // console.log(notes.title, notes.description)
+        props.showAlert('success','note added successfully')
         setNotes({title:'', description:'', tag:''})
       }
     function handleDescChange(event) {
@@ -29,6 +30,7 @@ function BasicExample() {
       }
     
   return (
+    <div className='container'>
     <Form>
       <Form.Group className="mb-3">
         <Form.Label>Title</Form.Label>
@@ -44,7 +46,8 @@ function BasicExample() {
         Save
       </Button>
     </Form>
+    </div>
   );
 }
 
-export default BasicExample;
+export default AddNote;

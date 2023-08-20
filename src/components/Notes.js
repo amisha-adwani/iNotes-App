@@ -15,7 +15,7 @@ const Notes = () => {
     <div>
       {/* <Row xs={1} md={2} lg={3} className="g-4"> */}
       <h4>Your Notes </h4>
-      <Row xs={1} md={2} lg={4} className="g-4">
+      <Row xs={1} md={2} lg={3} className="g-4">
         {notes.map((note) => {
           return (
             <div key={note._id}>

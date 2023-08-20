@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 
-function Signup() {
+function Signup(props) {
   let navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     name: "",
@@ -30,8 +30,9 @@ function Signup() {
       // save the auth token and redirect
       localStorage.setItem("token", json.authtoken);
       navigate("/home");
+      props.showAlert('success', 'successfully created an account')
     } else {
-      alert("Invalid credentials");
+      props.showAlert('danger', 'Invalid credentials')
     }
   };
 
@@ -47,12 +48,12 @@ function Signup() {
       </Form.Group>
       <Form.Group className="mb-3" >
         <Form.Label htmlFor="email">Email address</Form.Label>
-        <Form.Control type="email" name='email' placeholder="Enter email" onChange={handleChange}/>
+        <Form.Control type="email" name='email' placeholder="Enter email" onChange={handleChange} />
       </Form.Group>
 
       <Form.Group className="mb-3" >
         <Form.Label htmlFor="password">Password</Form.Label>
-        <Form.Control type="password" name='password' placeholder="Password" onChange={handleChange}/>
+        <Form.Control type="password" name='password' placeholder="Password" onChange={handleChange} minLength={5}/>
       </Form.Group>
       <Button variant="primary" type="submit" onClick={handleSubmit}>
         Submit
