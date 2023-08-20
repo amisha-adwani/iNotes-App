@@ -16,7 +16,7 @@ export default function NoteItem(props) {
         <Card.Body>
           <Card.Title>{props.note.title}</Card.Title>
           <Card.Text>{props.note.description}</Card.Text>
-          <FontAwesomeIcon icon={faTrash} style={{ marginRight: "20px", cursor:"pointer" }} onClick={()=>{deleteNote(props.note._id)}}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faTrash} style={{ marginRight: "20px", cursor:"pointer" }} onClick={()=>{deleteNote(props.note._id); props.showAlert('success','note deleted successfully')}}></FontAwesomeIcon>
           <FontAwesomeIcon icon={faPenToSquare} style={{  cursor:"pointer" }}></FontAwesomeIcon>
         </Card.Body>
       </Card>

@@ -4,7 +4,7 @@ import NoteItem from "./NoteItem";
 import Row from "react-bootstrap/Row";
 import { Col } from "react-bootstrap";
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(NoteContext);
   const { notes, getNotes} = context;
 
@@ -20,7 +20,7 @@ const Notes = () => {
           return (
             <div key={note._id}>
               <Col className="m-4">
-                <NoteItem note={note} />
+                <NoteItem note={note} showAlert={props.showAlert}/>
               </Col>
             </div>
           );
