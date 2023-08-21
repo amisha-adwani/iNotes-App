@@ -60,7 +60,6 @@ router.post(
   "/login",
   //validation if credentials exists
   [
-    body("name").isLength({ min: 3 }).withMessage("Not a valid name").exists(),
     body("email").isEmail().withMessage("Not a valid email").exists(),
     body("password")
       .isLength({ min: 5 })
